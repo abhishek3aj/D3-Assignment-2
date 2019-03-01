@@ -1,5 +1,5 @@
-Florence-1.html: Florence Nightingale's Visulization part 1
-Florence-2.html: Florence Nightingale's Visulization part 2
+Florence-1.html: Florence Nightingale's Visualization part 1
+Florence-2.html: Florence Nightingale's Visualization part 2
 Minard.html: Minard's map visualization
 Visulization: Images folder
 index.html: Simple vertical Bar-chart for learning 
