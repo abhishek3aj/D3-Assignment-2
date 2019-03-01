@@ -1,0 +1,53 @@
+<html>
+<title>Svg</title>
+
+<head>
+    <script src="d3.min.js"></script>
+</head>
+
+<body>
+    <script>
+        var data = [];                        //Initialize empty array
+        for (var i = 0; i < 10; i++) {           //Loop 25 times
+            var newNumber = Math.random() * 30;  //New random number (0-30)
+            data.push(newNumber);             //Add new number to array
+        }
+        //data = [5, 10, 15, 20, 25];
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("height", 600)
+            .attr("width", 600);
+        svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d, i) {
+                return (i * 50) + 25;
+            })
+            .attr("margin-right", "2px")
+            .attr("margin-left", "2px")
+            .attr("cy", 250)
+            .attr("r", function (d) {
+                return d;
+            })
+            .attr("fill", function (d) {
+                if (d < 15) {
+                    return "red"
+                } else {
+                    return "green"
+                }
+            })
+            .attr("stroke", "black")
+            .attr("stroke-width", function (d) {
+                if (d < 15) {
+                    return "5"
+                } else {
+                    return "2"
+                }
+            })
+
+        // circle cx="250" cy="25" r="25" fill='yellow' stroke="red" stroke-width="2"/>
+    </script>
+</body>
+
+</html>

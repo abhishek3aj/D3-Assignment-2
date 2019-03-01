@@ -1,0 +1,241 @@
+<html>
+<title>
+    Minards Map
+</title>
+
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8"
+        type="text/javascript"></script>
+    <script src="https://d3js.org/d3-path.v1.min.js"></script>
+    <script src="underscore.min.js"></script>
+
+    <style>
+        path {
+            fill: green;
+            stroke: #aaa;
+        }
+    </style>
+
+</head>
+
+<body>
+    <script>
+        projection = d3.geo.equirectangular().translate([-3000, 7800]).scale(8000);
+        sizeScale = d3.scale.linear().domain([6000, 340000]).range([1, 10])
+        var data = [
+            { "lon": 24.0, "lat": 54.9, "size": 340000, "dir": 1, "group": 1 },
+            { "lon": 24.5, "lat": 55.0, "size": 340000, "dir": 1, "group": 1 },
+            { "lon": 25.5, "lat": 54.6, "size": 340000, "dir": 1, "group": 1 },
+            { "lon": 26.0, "lat": 54.7, "size": 320000, "dir": 1, "group": 1 },
+            { "lon": 27.0, "lat": 54.8, "size": 300000, "dir": 1, "group": 1 },
+            { "lon": 28.0, "lat": 54.9, "size": 280000, "dir": 1, "group": 1 },
+            { "lon": 28.5, "lat": 55.0, "size": 240000, "dir": 1, "group": 1 },
+            { "lon": 29.0, "lat": 55.1, "size": 210000, "dir": 1, "group": 1 },
+            { "lon": 30.0, "lat": 55.2, "size": 180000, "dir": 1, "group": 1 },
+            { "lon": 30.3, "lat": 55.3, "size": 175000, "dir": 1, "group": 1 },
+            { "lon": 32.0, "lat": 54.8, "size": 145000, "dir": 1, "group": 1 },
+            { "lon": 33.2, "lat": 54.9, "size": 140000, "dir": 1, "group": 1 },
+            { "lon": 34.4, "lat": 55.5, "size": 127100, "dir": 1, "group": 1 },
+            { "lon": 35.5, "lat": 55.4, "size": 100000, "dir": 1, "group": 1 },
+            { "lon": 36.0, "lat": 55.5, "size": 100000, "dir": 1, "group": 1 },
+            { "lon": 37.6, "lat": 55.8, "size": 100000, "dir": 1, "group": 1 },
+            { "lon": 37.65, "lat": 55.65, "size": 100000, "dir": -1, "group": 1 },
+            { "lon": 37.45, "lat": 55.62, "size": 98000, "dir": -1, "group": 1 },
+            { "lon": 37.0, "lat": 55.0, "size": 97000, "dir": -1, "group": 1 },
+            { "lon": 36.8, "lat": 55.0, "size": 96000, "dir": -1, "group": 1 },
+            { "lon": 35.4, "lat": 55.3, "size": 87000, "dir": -1, "group": 1 },
+            { "lon": 34.3, "lat": 55.2, "size": 55000, "dir": -1, "group": 1 },
+            { "lon": 33.3, "lat": 54.8, "size": 37000, "dir": -1, "group": 1 },
+            { "lon": 32.0, "lat": 54.6, "size": 24000, "dir": -1, "group": 1 },
+            { "lon": 30.4, "lat": 54.4, "size": 20000, "dir": -1, "group": 1 },
+            { "lon": 29.2, "lat": 54.3, "size": 20000, "dir": -1, "group": 1 },
+            { "lon": 29.13, "lat": 54.29, "size": 50000, "dir": -1, "group": 1 },
+            { "lon": 28.5, "lat": 54.2, "size": 50000, "dir": -1, "group": 1 },
+            { "lon": 28.3, "lat": 54.3, "size": 48000, "dir": -1, "group": 1 },
+            { "lon": 26.8, "lat": 54.3, "size": 12000, "dir": -1, "group": 1 },
+            { "lon": 26.8, "lat": 54.4, "size": 14000, "dir": -1, "group": 1 },
+            { "lon": 25.0, "lat": 54.4, "size": 8000, "dir": -1, "group": 1 },
+            { "lon": 24.4, "lat": 54.4, "size": 4000, "dir": -1, "group": 1 },
+            { "lon": 24.2, "lat": 54.4, "size": 4000, "dir": -1, "group": 1 },
+            { "lon": 24.1, "lat": 54.4, "size": 4000, "dir": -1, "group": 1 },
+            { "lon": 24.0, "lat": 55.1, "size": 60000, "dir": 1, "group": 2 },
+            { "lon": 24.5, "lat": 55.2, "size": 60000, "dir": 1, "group": 2 },
+            { "lon": 25.5, "lat": 54.7, "size": 60000, "dir": 1, "group": 2 },
+            { "lon": 26.6, "lat": 55.7, "size": 40000, "dir": 1, "group": 2 },
+            { "lon": 27.4, "lat": 55.6, "size": 33000, "dir": 1, "group": 2 },
+            { "lon": 28.7, "lat": 55.5, "size": 33000, "dir": 1, "group": 2 },
+            { "lon": 28.7, "lat": 55.5, "size": 33000, "dir": -1, "group": 2 },
+            { "lon": 29.2, "lat": 54.29, "size": 30000, "dir": -1, "group": 2 },
+
+            { "lon": 27.5, "lat": 54.5, "size": 33000, "dir": -1, "group": 2 },
+            { "lon": 26.8, "lat": 54.3, "size": 30000, "dir": -1, "group": 2 },
+            { "lon": 26.4, "lat": 54.4, "size": 33000, "dir": -1, "group": 2 },
+            { "lon": 24.6, "lat": 54.5, "size": 30000, "dir": -1, "group": 2 },
+            { "lon": 24.4, "lat": 54.4, "size": 33000, "dir": -1, "group": 2 },
+            { "lon": 24.2, "lat": 54.4, "size": 30000, "dir": -1, "group": 2 },
+            { "lon": 24.1, "lat": 55.3, "size": 33000, "dir": -1, "group": 2 },
+
+            { "lon": 24.0, "lat": 55.2, "size": 22000, "dir": 1, "group": 3 },
+            { "lon": 24.5, "lat": 55.3, "size": 22000, "dir": 1, "group": 3 },
+            { "lon": 24.6, "lat": 55.8, "size": 6000, "dir": 1, "group": 3 },
+            { "lon": 24.6, "lat": 55.8, "size": 6000, "dir": -1, "group": 3 },
+            { "lon": 24.2, "lat": 54.4, "size": 6000, "dir": -1, "group": 3 },
+            { "lon": 24.1, "lat": 54.4, "size": 6000, "dir": -1, "group": 3 }
+        ]
+
+
+
+        var svgContainer = d3.select("body").append("svg")
+            .attr("width", 3500)
+            .attr("height", 3500)
+            .attr("transform", "translate(100,100)")
+            //.style("background","#e4cb81");
+        var lastCx = 0
+        var lastCy = 0
+        var flag = 0;
+
+        var i;
+        for (i = 0; i < data.length; i++) {
+            if (i != 0) {
+                lastCx = projection([data[i - 1].lon, data[i - 1].lat])[0]
+                lastCy = projection([data[i - 1].lon, data[i - 1].lat])[1]
+                flag = 1
+            }
+            svgContainer.append("circle")
+                .attr("cx", projection([data[i].lon, data[i].lat])[0])
+                .attr("cy", projection([data[i].lon, data[i].lat])[1])
+                .attr("r", function () {
+                    // element.size / 10000)
+                    if (data[i].dir == 1) {
+                        return 10
+                        //return data[i].size / 10000
+                    } else if (data[i].dir == -1) {
+                        return 5
+                        //return data[i].size / 10000
+                    }
+                })
+                .attr("fill", function () {
+                    if (data[i].dir == 1 && data[i].group == 1) {
+                        return "#1f77b4"
+                    } else if (data[i].dir == -1 && data[i].group == 1) {
+                        return "#71c1ed"
+                    } else if (data[i].dir == 1 && data[i].group == 2) {
+                        return "#f1ab6d"
+                    } else if (data[i].dir == -1 && data[i].group == 2) {
+                        return "#b7ffb8"
+                    } else if (data[i].dir == 1 && data[i].group == 3) {
+                        return "#2ca02c"
+                    } else if (data[i].dir == -1 && data[i].group == 3) {
+                        return "#a9ffa9"
+                    }
+                });
+            if (flag == 1) {
+                var lineGenerator = d3.svg.line().interpolate('basis');
+                console.log("in line")
+                var point = [[lastCx, lastCy],
+                [projection([data[i].lon, data[i].lat])[0], projection([data[i].lon, data[i].lat])[1]]]
+                var pathData = lineGenerator(point);
+                console.log(point)
+                svgContainer.append('path')
+                    .attr('d', pathData)
+                    .attr("fill", "none")
+                    .attr('stroke-width', data[i - 1].size / 5000)
+                    .style('stroke', function () {
+                        if (data[i - 1].dir == 1 && data[i - 1].group == 1) {
+                            return "#1f77b4"
+                        } else if (data[i - 1].dir == -1 && data[i - 1].group == 1) {
+                            return "#71c1ed"
+                        } else if (data[i - 1].dir == 1 && data[i - 1].group == 2) {
+                            return "#ff7f0e"
+                        } else if (data[i - 1].dir == -1 && data[i - 1].group == 2) {
+                            return "#f1ab6d"
+                        } else if (data[i - 1].dir == 1 && data[i - 1].group == 3) {
+                            return "#2ca02c"
+                        } else if (data[i - 1].dir == -1 && data[i - 1].group == 3) {
+                            return "#a9ffa9"
+                        }
+                    });
+
+            }
+        }
+        var locationData = [{ "lon": 24.0, "lat": 55.0, "city": "Kowno" },
+        { "lon": 25.3, "lat": 54.7, "city": "Wilna" },
+        { "lon": 26.4, "lat": 54.6, "city": "Smorgoni" },
+        { "lon": 26.8, "lat": 54.7, "city": "Molodexno" },
+        { "lon": 27.7, "lat": 54.8, "city": "Gloubokoe" },
+        { "lon": 27.6, "lat": 54.9, "city": "Minsk" },
+        { "lon": 28.5, "lat": 55.0, "city": "Studienska" },
+        { "lon": 29.0, "lat": 55.1, "city": "Polotzk" },
+        { "lon": 30.0, "lat": 55.2, "city": "Bobr" },
+        { "lon": 30.3, "lat": 55.3, "city": "Witebsk" },
+        { "lon": 32.0, "lat": 54.8, "city": "Orscha" },
+        { "lon": 33.2, "lat": 54.9, "city": "Mohilow" },
+        { "lon": 34.4, "lat": 55.5, "city": "Smolensk" },
+        { "lon": 35.5, "lat": 55.4, "city": "Dorogobouge" },
+        { "lon": 36.0, "lat": 55.5, "city": "Wixma" },
+        { "lon": 37.6, "lat": 55.8, "city": "Chjat" },
+        { "lon": 37.65, "lat": 55.65, "city": "Mojaisk" },
+        { "lon": 37.45, "lat": 55.62, "city": "Moscou" },
+        { "lon": 37.0, "lat": 55.0, "city": "Tarantino" },
+        { "lon": 36.8, "lat": 55.0, "city": "Malo-jarosewli" }]
+        var k;
+        for(k=0;k<locationData.length;k++){
+            svgContainer
+                .append("text")
+                .text(locationData[k].city)
+                .attr("x", projection([locationData[k].lon, locationData[k].lat])[0])
+                .attr("y", projection([locationData[k].lon, locationData[k].lat])[1])
+                .style("fill","black")
+        }
+        
+        svgContainer
+        .append("text")
+        .attr("x", 300)
+        .attr("y", 300)
+        .text("Group 1 March")
+        .style("fill", "#1f77b4")
+        .style("font-size", "30px")
+        svgContainer
+        .append("text")
+        .attr("x", 510)
+        .attr("y", 300)
+        .text("Group 1 Return")
+        .style("fill", "#71c1ed")
+        .style("font-size", "30px")
+
+        svgContainer
+        .append("text")
+        .attr("x", 810)
+        .attr("y", 300)
+        .text("Group 2 March")
+        .style("fill", "#ff7f0e")
+        .style("font-size", "30px")
+
+        svgContainer
+        .append("text")
+        .attr("x", 1020)
+        .attr("y", 300)
+        .text("Group 2 Return")
+        .style("fill", "#f1ab6d")
+        .style("font-size", "30px")
+
+        svgContainer
+        .append("text")
+        .attr("x", 1300)
+        .attr("y", 300)
+        .text("Group 3 March")
+        .style("fill", "#2ca02c")
+        .style("font-size", "30px")
+
+        svgContainer
+        .append("text")
+        .attr("x", 1500)
+        .attr("y", 300)
+        .text("Group 3 Return")
+        .style("fill", "#a9ffa9")
+        .style("font-size", "30px")
+    </script>
+</body>
+
+</html>

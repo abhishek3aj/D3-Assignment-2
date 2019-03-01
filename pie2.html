@@ -1,0 +1,321 @@
+<html>
+<title>
+    Nightingal Rose
+</title>
+
+<head>
+    <style>
+        .arc-disease {
+            fill: aqua;
+        }
+
+        .arc-wound {
+            fill: brown
+        }
+
+        .arc-other {
+            fill: burlywood
+        }
+    </style>
+
+    <script src="d3.min.js"></script>
+    <script src="underscore.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+    <script>
+
+        // // legend    
+        // var legend = svg.append("g")
+        //     .attr("class", "legend")
+        //     .attr("x", 65)
+        //     .attr("y", 25)
+        //     .attr("height", 100)
+
+        // legend.append("rect")
+        //     .attr("x", 65)
+        //     .attr("y", 25)
+        //     .attr("width", 10)
+        //     .attr("height", 10)
+        //     .style("fill", "aqua")
+        //     .text("Disease")
+
+        // var legendTitle = svg.append("g")
+        //     .attr("class", "legendTitle")
+        //     .attr("x", 75)
+        //     .attr("y", 25)
+        //     .attr("height", 10)
+        //     .attr("width", 10);
+        var width = 700
+        var height = 600
+        var details = [
+            {
+                "date": "1/1855",
+                "army_size": 32393,
+                "disease": 2761,
+                "wounds": 83,
+                "other": 324
+            },
+            {
+                "date": "2/1855",
+                "army_size": 30919,
+                "disease": 2120,
+                "wounds": 42,
+                "other": 361
+            },
+            {
+                "date": "3/1855",
+                "army_size": 30107,
+                "disease": 1205,
+                "wounds": 32,
+                "other": 172
+            },
+            {
+                "date": "4/1855",
+                "army_size": 32252,
+                "disease": 477,
+                "wounds": 48,
+                "other": 57
+            },
+            {
+                "date": "5/1855",
+                "army_size": 35473,
+                "disease": 508,
+                "wounds": 49,
+                "other": 37
+            },
+            {
+                "date": "6/1855",
+                "army_size": 38863,
+                "disease": 802,
+                "wounds": 209,
+                "other": 31
+            },
+            {
+                "date": "7/1855",
+                "army_size": 42647,
+                "disease": 382,
+                "wounds": 134,
+                "other": 33
+            },
+            {
+                "date": "8/1855",
+                "army_size": 44614,
+                "disease": 483,
+                "wounds": 164,
+                "other": 25
+            },
+            {
+                "date": "9/1855",
+                "army_size": 47751,
+                "disease": 189,
+                "wounds": 276,
+                "other": 20
+            },
+            {
+                "date": "10/1855",
+                "army_size": 46852,
+                "disease": 128,
+                "wounds": 53,
+                "other": 18
+            },
+            {
+                "date": "11/1855",
+                "army_size": 37853,
+                "disease": 178,
+                "wounds": 33,
+                "other": 32
+            },
+            {
+                "date": "12/1855",
+                "army_size": 43217,
+                "disease": 91,
+                "wounds": 18,
+                "other": 28
+            }
+        ]
+        var i = 0
+
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(100,350)");
+
+
+
+
+        // legend start
+        var legendD = svg.append("g")
+            .attr("class", "legendD")
+            .attr("x", 95)
+            .attr("y", 25)
+            .attr("height", 100)
+            .attr("width", 100);
+
+        legendD.append("rect")
+            .attr("x", 95)
+            .attr("y", 25)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", "aqua");
+
+        legendD.append("text")
+            .attr("x", 105)
+            .attr("y", 35)
+            .attr("font-size", "10px")
+            .text("Disease");
+
+
+
+        var legendD1 = svg.append("g")
+            .attr("class", "legendD")
+            .attr("x", 95)
+            .attr("y", 25)
+            .attr("height", 100)
+            .attr("width", 100);
+
+        legendD1.append("rect")
+            .attr("x", 95)
+            .attr("y", 35)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", "brown");
+
+        legendD1.append("text")
+            .attr("x", 105)
+            .attr("y", 45)
+            .attr("font-size", "10px")
+            .text("Wound");
+
+
+        var legendD2 = svg.append("g")
+            .attr("class", "legendD")
+            .attr("x", 95)
+            .attr("y", 25)
+            .attr("height", 100)
+            .attr("width", 100);
+
+        legendD2.append("rect")
+            .attr("x", 95)
+            .attr("y", 45)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", "burlywood");
+
+        legendD2.append("text")
+            .attr("x", 105)
+            .attr("y", 55)
+            .attr("font-size", "10px")
+            .text("Other");
+
+
+        var cArr = 0
+        //1000*D/s
+        var monthMap = { "1": "Jan", "2": "Feb", "3": "Mar", "4": "Apr", "5": "May", "6": "Jun", "7": "Jul", "8": "Aug", "9": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" }
+        details.forEach(element => {
+            var map = [{ "name": "disease", "value": element.disease, "army_size": element.army_size, "date": element.date },
+            { "name": "wounds", "value": element.wounds, "army_size": element.army_size, "date": element.date },
+            { "name": "other", "value": element.other, "army_size": element.army_size, "date": element.date }]
+            var sortedMap = _.sortBy(map, 'value');
+            console.log(JSON.stringify(sortedMap))
+            var s1 = 2500 / sortedMap[2].army_size;
+            var total_ill = sortedMap[2].value + sortedMap[1].value + sortedMap[0].value
+            var arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius((sortedMap[2].value / total_ill) * 100)
+                .startAngle(i)
+                // .padAngle(.1)
+                .endAngle(i + 0.5236);
+
+            svg.append("path")
+                .attr("stroke", "black")
+                .attr("class", function () {
+                    if (sortedMap[2].name == "disease") {
+                        return "arc-disease";
+                    }
+                    if (sortedMap[2].name == "wounds") {
+                        return "arc-wound";
+                    }
+                    if (sortedMap[2].name == "other") {
+                        return "arc-other";
+                    }
+                })
+                .attr("d", arc);
+            var s2 = 3500 / sortedMap[1].army_size;
+            var arc1 = d3.arc()
+                .innerRadius(0)
+                .outerRadius((sortedMap[1].value / total_ill) * 100)
+                .startAngle(i)
+                // .padAngle(.1)
+                .endAngle(i + 0.5236);
+            svg.append("path")
+
+                .attr("stroke", "black")
+                .attr("class", function () {
+                    if (sortedMap[1].name == "disease") {
+                        return "arc-disease";
+                    }
+                    if (sortedMap[1].name == "wounds") {
+                        return "arc-wound";
+                    }
+                    if (sortedMap[1].name == "other") {
+                        return "arc-other";
+                    }
+                })
+                .attr("d", arc1);
+            var s3 = 2500 / sortedMap[0].army_size;
+            var arc2 = d3.arc()
+                .innerRadius(0)
+                .outerRadius((sortedMap[0].value / total_ill) * 100)
+                .startAngle(i)
+                // .padAngle(.1)
+                .endAngle(i + 0.5236);
+            svg.append("path")
+                .attr("stroke", "black")
+                .attr("stroke-width", "0.25")
+                .attr("class", function () {
+                    if (sortedMap[0].name == "disease") {
+                        return "arc-disease";
+                    }
+                    if (sortedMap[0].name == "wounds") {
+                        return "arc-wound";
+                    }
+                    if (sortedMap[0].name == "other") {
+                        return "arc-other";
+                    }
+                })
+                .attr("d", arc2);
+
+            console.log(arc.centroid())
+            var month = element.date.split("/")[0]
+            var year = element.date.split("/")[1]
+            var cArr = arc.centroid()
+            var label = svg.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" + cArr[0] * 2 + "," + cArr[1] * 2 + ")";
+                })
+                .attr("text-anchor", "middle")
+                .attr("font-size", "7px")
+                .attr("padding", "2px")
+                .text(function () {
+                    return monthMap[month] + year;
+                });
+
+            console.log(i)
+
+            i = i + 0.5236
+        });
+
+    </script>
+
+</body>
+
+</html>

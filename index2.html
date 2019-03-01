@@ -1,0 +1,45 @@
+<html>
+<title>
+    Bar Chart
+</title>
+
+<head>
+    <style>
+        div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;
+            /* We'll override this later */
+            background-color: teal;
+            margin-right: 2px;
+        }
+    </style>
+
+    <script src="d3.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function (e) {
+            var data = [];                        //Initialize empty array
+            for (var i = 0; i < 25; i++) {           //Loop 25 times
+                var newNumber = Math.random() * 30;  //New random number (0-30)
+                data.push(newNumber);             //Add new number to array
+            }
+            d3.select("body").selectAll("div")
+                .data(data)
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", function (d) {
+                    return d * 5 + "px";
+                });
+        });
+
+    </script>
+</body>
+
+</html>
