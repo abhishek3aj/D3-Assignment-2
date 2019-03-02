@@ -90,7 +90,7 @@
             .attr("width", 3500)
             .attr("height", 3500)
             .attr("transform", "translate(100,100)")
-            //.style("background","#e4cb81");
+        //.style("background","#e4cb81");
         var lastCx = 0
         var lastCy = 0
         var flag = 0;
@@ -108,11 +108,11 @@
                 .attr("r", function () {
                     // element.size / 10000)
                     if (data[i].dir == 1) {
-                        return 10
-                        //return data[i].size / 10000
+                        //return 10
+                        return data[i].size / 9000
                     } else if (data[i].dir == -1) {
-                        return 5
-                        //return data[i].size / 10000
+                        //return 5
+                        return data[i].size / 100000
                     }
                 })
                 .attr("fill", function () {
@@ -130,8 +130,9 @@
                         return "#a9ffa9"
                     }
                 });
+
             if (flag == 1) {
-                var lineGenerator = d3.svg.line().interpolate('basis');
+                var lineGenerator = d3.svg.line().interpolate('bundle');
                 console.log("in line")
                 var point = [[lastCx, lastCy],
                 [projection([data[i].lon, data[i].lat])[0], projection([data[i].lon, data[i].lat])[1]]]
@@ -140,7 +141,7 @@
                 svgContainer.append('path')
                     .attr('d', pathData)
                     .attr("fill", "none")
-                    .attr('stroke-width', data[i - 1].size / 5000)
+                    .attr('stroke-width', data[i - 1].size / 4000)
                     .style('stroke', function () {
                         if (data[i - 1].dir == 1 && data[i - 1].group == 1) {
                             return "#1f77b4"
@@ -180,61 +181,61 @@
         { "lon": 37.0, "lat": 55.0, "city": "Tarantino" },
         { "lon": 36.8, "lat": 55.0, "city": "Malo-jarosewli" }]
         var k;
-        for(k=0;k<locationData.length;k++){
+        for (k = 0; k < locationData.length; k++) {
             svgContainer
                 .append("text")
                 .text(locationData[k].city)
                 .attr("x", projection([locationData[k].lon, locationData[k].lat])[0])
                 .attr("y", projection([locationData[k].lon, locationData[k].lat])[1])
-                .style("fill","black")
+                .style("fill", "black")
         }
-        
-        svgContainer
-        .append("text")
-        .attr("x", 300)
-        .attr("y", 300)
-        .text("Group 1 March")
-        .style("fill", "#1f77b4")
-        .style("font-size", "30px")
-        svgContainer
-        .append("text")
-        .attr("x", 510)
-        .attr("y", 300)
-        .text("Group 1 Return")
-        .style("fill", "#71c1ed")
-        .style("font-size", "30px")
 
         svgContainer
-        .append("text")
-        .attr("x", 810)
-        .attr("y", 300)
-        .text("Group 2 March")
-        .style("fill", "#ff7f0e")
-        .style("font-size", "30px")
+            .append("text")
+            .attr("x", 300)
+            .attr("y", 300)
+            .text("Group 1 March")
+            .style("fill", "#1f77b4")
+            .style("font-size", "30px")
+        svgContainer
+            .append("text")
+            .attr("x", 510)
+            .attr("y", 300)
+            .text("Group 1 Return")
+            .style("fill", "#71c1ed")
+            .style("font-size", "30px")
 
         svgContainer
-        .append("text")
-        .attr("x", 1020)
-        .attr("y", 300)
-        .text("Group 2 Return")
-        .style("fill", "#f1ab6d")
-        .style("font-size", "30px")
+            .append("text")
+            .attr("x", 810)
+            .attr("y", 300)
+            .text("Group 2 March")
+            .style("fill", "#ff7f0e")
+            .style("font-size", "30px")
 
         svgContainer
-        .append("text")
-        .attr("x", 1300)
-        .attr("y", 300)
-        .text("Group 3 March")
-        .style("fill", "#2ca02c")
-        .style("font-size", "30px")
+            .append("text")
+            .attr("x", 1020)
+            .attr("y", 300)
+            .text("Group 2 Return")
+            .style("fill", "#f1ab6d")
+            .style("font-size", "30px")
 
         svgContainer
-        .append("text")
-        .attr("x", 1500)
-        .attr("y", 300)
-        .text("Group 3 Return")
-        .style("fill", "#a9ffa9")
-        .style("font-size", "30px")
+            .append("text")
+            .attr("x", 1300)
+            .attr("y", 300)
+            .text("Group 3 March")
+            .style("fill", "#2ca02c")
+            .style("font-size", "30px")
+
+        svgContainer
+            .append("text")
+            .attr("x", 1500)
+            .attr("y", 300)
+            .text("Group 3 Return")
+            .style("fill", "#a9ffa9")
+            .style("font-size", "30px")
     </script>
 </body>
 
